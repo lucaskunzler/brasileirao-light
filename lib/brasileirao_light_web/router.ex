@@ -17,7 +17,7 @@ defmodule BrasileiraoLightWeb.Router do
   scope "/", BrasileiraoLightWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/", StandingsLive
   end
 
   # Other scopes may use custom stacks.
