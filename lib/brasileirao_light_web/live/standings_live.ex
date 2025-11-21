@@ -306,24 +306,34 @@ defmodule BrasileiraoLightWeb.StandingsLive do
   end
 
   defp row_class(position) do
-    cond do
-      position <= 4 -> "bg-blue-100"
-      position <= 6 -> "bg-cyan-100"
-      position <= 12 -> "bg-green-100"
-      position >= 17 -> "bg-red-100"
-      true -> ""
-    end
+    position
+    |> result()
+    |> row_class_by_result()
   end
 
+  defp row_class_by_result(:libertadores), do: "bg-blue-100"
+  defp row_class_by_result(:pre_libertadores), do: "bg-cyan-100"
+  defp row_class_by_result(:sulamericana), do: "bg-green-100"
+  defp row_class_by_result(:rebaixado), do: "bg-red-100"
+  defp row_class_by_result(_), do: ""
+
   defp position_color(position) do
-    cond do
-      position <= 4 -> "text-blue-600"
-      position <= 6 -> "text-cyan-600"
-      position <= 12 -> "text-green-600"
-      position >= 17 -> "text-red-600"
-      true -> "text-gray-400"
-    end
+    position
+    |> result()
+    |> position_color_by_result()
   end
+
+  defp position_color_by_result(:libertadores), do: "text-blue-600"
+  defp position_color_by_result(:pre_libertadores), do: "text-cyan-600"
+  defp position_color_by_result(:sulamericana), do: "text-green-600"
+  defp position_color_by_result(:rebaixado), do: "text-red-600"
+  defp position_color_by_result(_), do: "text-gray-400"
+
+  defp result(position) when position <= 5, do: :libertadores
+  defp result(position) when position <= 7, do: :pre_libertadores
+  defp result(position) when position <= 13, do: :sulamericana
+  defp result(position) when position >= 17, do: :rebaixado
+  defp result(_position), do: :neutral
 
   defp filter_matches_by_round(matches, round) do
     matches
